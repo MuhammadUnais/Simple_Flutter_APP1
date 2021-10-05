@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sample/models/catalog.dart';
 import 'package:sample/utils/routes.dart';
-import 'package:sample/widgets/drawer.dart';
 import 'package:sample/widgets/home_widgets/catalog_header.dart';
 import 'package:sample/widgets/home_widgets/catalog_list.dart';
 import 'dart:convert';
