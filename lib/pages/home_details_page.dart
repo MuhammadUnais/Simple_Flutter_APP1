@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:sample/models/catalog.dart';
+import 'package:sample/widgets/home_widgets/add_to_cart.dart';
 import 'package:sample/widgets/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -13,28 +14,21 @@ class HomeDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MyTheme.creamColor;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: MyTheme.darkbluishColor,
-        iconTheme: IconThemeData(color: MyTheme.creamColor),
+        iconTheme: IconThemeData(color: context.theme.cardColor),
+        title: "U Products".text.make(),
       ),
-      backgroundColor: MyTheme.creamColor,
+      backgroundColor: context.canvasColor,
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: context.cardColor,
         child: ButtonBar(
           alignment: MainAxisAlignment.spaceEvenly,
           buttonPadding: EdgeInsets.zero,
           children: [
             "Price: \$${catalog.price}".text.bold.xl3.blue900.make(),
-            ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor:
-                          MaterialStateProperty.all(MyTheme.darkbluishColor),
-                    ),
-                    child: "BUY Now".text.make())
-                .wh(100, 55)
+            AddToCart(catalog: catalog).wh(115, 50)
           ],
         ).p12(),
       ),
@@ -52,38 +46,27 @@ class HomeDetailPage extends StatelessWidget {
                 arcType: VxArcType.CONVEY,
                 edge: VxEdge.TOP,
                 child: Container(
-                  color: Colors.white,
+                  color: context.cardColor,
                   width: (context).screenWidth,
                   child: Column(
                     children: [
                       catalog.name.text.xl4.bold
                           .color(MyTheme.darkbluishColor)
                           .make(),
-                      catalog.desc.text.caption(context).make(),
-                      "*********************************"
+                      catalog.desc.text.xl.caption(context).coolGray500.make(),
+                      "*********************************".text.make(),
+                      30.heightBox,
+                      "Product Id: ${catalog.id}".text.xl.orange500.make(),
+                      "Product Name:${catalog.name}".text.xl.orange500.make(),
+                      "Product descrption: ${catalog.desc}"
                           .text
-                          .bold
-                          .xl2
-                          .black
+                          .xl
+                          .orange500
                           .make(),
-                      "Product Id: \$${catalog.id}".text.italic.xs.black.make(),
-                      "Product Name: \$${catalog.name}"
+                      "Product colour: ${catalog.color}"
                           .text
-                          .italic
-                          .xs
-                          .black
-                          .make(),
-                      "Product descrption: \$${catalog.desc}"
-                          .text
-                          .italic
-                          .xs
-                          .black
-                          .make(),
-                      "Product colour: \$${catalog.color}"
-                          .text
-                          .italic
-                          .xs
-                          .black
+                          .xl
+                          .orange500
                           .make()
                     ],
                   ).py32(),

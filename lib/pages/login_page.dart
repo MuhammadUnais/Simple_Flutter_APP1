@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
+import 'package:sample/widgets/themes.dart';
 import 'package:sample/utils/routes.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Material(
-        color: Colors.white,
+        color: context.canvasColor,
         child: SingleChildScrollView(
           child: Form(
             key: _formKey,
@@ -42,15 +43,11 @@ class _LoginPageState extends State<LoginPage> {
                   fit: BoxFit.cover,
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 50,
                 ),
-                Text(
-                  "WELCOME $name",
-                  style: const TextStyle(
-                      fontSize: 24, fontWeight: FontWeight.bold),
-                ),
+                "WELCOME $name".text.xl4.bold.orange500.make(),
                 const SizedBox(
-                  height: 5,
+                  height: 2,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -65,8 +62,13 @@ class _LoginPageState extends State<LoginPage> {
                         validator: (value) {
                           if (value!.isEmpty) {
                             return "UserName Can't be Empty";
+                          } else if (value.length < 6) {
+                            return "UserName Must be 6 Characters";
+                          } else if (value.length > 9) {
+                            return "UserName Must be less then 9 Characters";
+                          } else {
+                            return null;
                           }
-                          return null;
                         },
                         onChanged: (value) {
                           name = value;
@@ -89,10 +91,10 @@ class _LoginPageState extends State<LoginPage> {
                         },
                       ),
                       const SizedBox(
-                        height: 15,
+                        height: 50,
                       ),
                       Material(
-                        color: Colors.white,
+                        color: context.theme.hintColor,
                         borderRadius:
                             BorderRadius.circular(changeButton ? 50 : 12),
                         child: InkWell(
@@ -117,18 +119,6 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ),
                       ),
-                      // ElevatedButton(
-                      //   child: const Text("Login"),
-                      //   style: TextButton.styleFrom(
-                      //     padding: const EdgeInsets.all(10.0),
-                      //     primary: Colors.white,
-                      //     textStyle: const TextStyle(fontSize: 18.5),
-                      //     backgroundColor: Colors.deepPurple,
-                      //   ),
-                      //   onPressed: () {
-                      //     Navigator.pushNamed(context, MyRoutes.homeRoute);
-                      //   },
-                      // ),
                     ],
                   ),
                 )

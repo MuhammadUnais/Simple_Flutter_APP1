@@ -1,9 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sample/models/catalog.dart';
+import 'package:sample/utils/routes.dart';
+import 'package:sample/widgets/drawer.dart';
 import 'package:sample/widgets/home_widgets/catalog_header.dart';
 import 'package:sample/widgets/home_widgets/catalog_list.dart';
-import 'package:sample/widgets/themes.dart';
 import 'dart:convert';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -40,23 +42,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    MyTheme.creamColor;
     return Scaffold(
-        backgroundColor: MyTheme.creamColor,
-        body: SafeArea(
-          child: Container(
-            padding: Vx.m32,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const CatalogHeader(),
-                if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
-                  const CatalogList().py1().expand()
-                else
-                  const CircularProgressIndicator().centered().py16().expand(),
-              ],
-            ),
+      backgroundColor: context.canvasColor,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => Navigator.pushNamed(context, MyRoutes.cartRoute),
+        backgroundColor: context
+            .theme.hintColor, //use hint because button color is no longer use
+        child: const Icon(
+          CupertinoIcons.cart,
+        ).iconColor(Colors.white),
+      ),
+      body: SafeArea(
+        child: Container(
+          padding: Vx.m24,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CatalogHeader(),
+              if (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+                const CatalogList().py1().expand()
+              else
+                const CircularProgressIndicator().centered().py16().expand(),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

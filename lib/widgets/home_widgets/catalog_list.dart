@@ -1,9 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sample/widgets/home_widgets/add_to_cart.dart';
+import 'package:sample/widgets/home_widgets/catalog_image.dart';
+import 'package:velocity_x/velocity_x.dart';
 import 'package:sample/models/catalog.dart';
 import 'package:sample/pages/home_details_page.dart';
-import 'package:sample/widgets/themes.dart';
-import 'package:velocity_x/velocity_x.dart';
-import 'catalog_image.dart';
 
 // catalog list code
 class CatalogList extends StatelessWidget {
@@ -47,34 +48,28 @@ class CatalogItem extends StatelessWidget {
             tag: Key(catalog.id.toString()),
             child: CatalogImage(
               image: catalog.image,
-            ),
+            ).p0(),
           ),
           Expanded(
               child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              catalog.name.text.xl.bold.color(MyTheme.darkbluishColor).make(),
-              catalog.desc.text.caption(context).make(),
-              const HeightBox(15.0),
+              catalog.name.text.xl2.bold.color(context.theme.hintColor).make(),
+              catalog.desc.text.xl.caption(context).gray500.make(),
+              const HeightBox(20.0),
               ButtonBar(
                 alignment: MainAxisAlignment.spaceEvenly,
-                buttonPadding: EdgeInsets.zero,
+                buttonPadding: const EdgeInsets.only(left: 10),
                 children: [
-                  "\$${catalog.price}".text.bold.xl2.blue800.make(),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(MyTheme.darkbluishColor),
-                      ),
-                      child: "BUY".text.make())
+                  "\$${catalog.price}".text.bold.xl2.orange500.make(),
+                  AddToCart(catalog: catalog)
                 ],
               )
             ],
           )),
         ],
       ),
-    ).white.roundedLg.square(160).make().py12();
+    ).color(context.cardColor).roundedLg.square(180).make().py12();
   }
 }
