@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sample/core/store.dart';
 import 'package:sample/models/cart.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -30,7 +31,7 @@ class _CartTotal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _cart = CartModel();
+    final CartModel _cart = (VxState.store as MyStore).cart;
     return SizedBox(
       height: 200,
       child: Row(
@@ -47,13 +48,17 @@ class _CartTotal extends StatelessWidget {
                     MaterialStateProperty.all(context.theme.hintColor)),
             child: "BUY"
                 .text
-                .xl2
+                .xl3
                 .bold
                 .color(context.theme.bottomAppBarColor)
                 .make(),
           ).wh8(context).w20(context),
-          30.widthBox,
-          "\$${_cart.totalPrice}".text.xl5.orange500.make(),
+          10.widthBox,
+          VxBuilder(
+              mutations: const {RemoveMutation},
+              builder: (context, _, status) {
+                return "Total:\$${_cart.totalPrice}".text.xl4.orange500.make();
+              }),
         ],
       ),
     );
@@ -61,9 +66,10 @@ class _CartTotal extends StatelessWidget {
 }
 
 class _cartList extends StatelessWidget {
-  final _cart = CartModel();
   @override
   Widget build(BuildContext context) {
+    VxState.watch(context, on: [RemoveMutation]);
+    final CartModel _cart = (VxState.store as MyStore).cart;
     return _cart.items.isEmpty
         ? "Noting to show.".text.orange600.xl3.underline.makeCentered()
         : ListView.builder(
@@ -75,10 +81,7 @@ class _cartList extends StatelessWidget {
               trailing: IconButton(
                 icon: const Icon(Icons.remove_circle_outline_rounded)
                     .iconColor(Colors.red),
-                onPressed: () {
-                  _cart.remove(_cart.items[index]);
-                  //setState(() {});
-                },
+                onPressed: () => RemoveMutation(item: _cart.items[index]),
               ),
             ),
           );
